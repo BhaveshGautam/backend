@@ -1,6 +1,8 @@
 const User =('..\models\User.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+// singup function 
 const signup=async(req,res)=>{
     try{
         const {Name,Email,Password,Section,Branch,year,RollNo}=req.body;
@@ -48,3 +50,44 @@ const signup=async(req,res)=>{
         });
    }
 }
+// login function 
+const login=async(req,res)=>{
+    try{
+        const {Email,Password}=req.body;
+        if(!Email ||!Password){
+            return res.status(400).json({
+                success:false,
+                message: "kindly provide complete details"
+                });
+                }
+                // check kr rhe hai ki user exist krta bhi ya nahii
+                const existingUser = await User.findOne({Email});
+                if(!existingUser){
+                    return res.status(400).json({
+                        success:false,
+                        message: "User does not exist"
+                        });
+                        }
+                        // hashing krne ke liye password ko extract kr rhe hai
+                        const isValidPassword = await bcrypt.compare(Password,existingUser.password);
+                        if(!isValidPassword){
+                            return res.status(400).json({
+                                success:false,
+                                message: "Invalid password"
+                                });
+                                }
+     // token generate krne ke liye
+     let token = jwt.sign(payload, process.env.jwt_secret, {expiresIn:'3h'})
+     res.status(200).json({
+        success:true,
+        message:'login successful', // means token return hogya used for login
+        token:token,
+        })
+        }
+        catch{
+            res.status(500).json({
+                success:false,
+                message:'Internal server error'
+                });
+                }
+                }
