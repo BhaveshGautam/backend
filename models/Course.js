@@ -13,11 +13,15 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  courseCode: {
+  coursecode: {
     type: String,
     required: true,
     unique: true,  
   },
+  coursename:{
+    type:String,
+    required:true
+  }
 }, {
   timestamps: true,  
 });

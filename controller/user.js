@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const signup=async(req,res)=>{
     try{
         const {Name,Email,Password,Section,Branch,year,RollNo}=req.body;
-        if(!Name ||!Email ||!Password ||!Section ||!Branch ||!year ||!RollNo){
+        if(!Name ||!Email ||!Password ||!Section ||!Branch ||!year ||!RollNo ||role){
             return res.status(400).json({
                 success:false,
                 message: "kindly provide complete details"
@@ -52,31 +52,38 @@ const signup=async(req,res)=>{
 }
 // login function 
 const login=async(req,res)=>{
-    try{
-        const {Email,Password}=req.body;
-        if(!Email ||!Password){
-            return res.status(400).json({
-                success:false,
-                message: "kindly provide complete details"
-                });
-                }
+try{
+     const {Email,Password,role}=req.body;
+     if(!Email ||!Password ||role){
+         return res.status(400).json({
+        success:false,
+         message: "kindly provide complete details"
+         });
+    }
                 // check kr rhe hai ki user exist krta bhi ya nahii
-                const existingUser = await User.findOne({Email});
-                if(!existingUser){
-                    return res.status(400).json({
-                        success:false,
-                        message: "User does not exist"
-                        });
-                        }
-                        // hashing krne ke liye password ko extract kr rhe hai
-                        const isValidPassword = await bcrypt.compare(Password,existingUser.password);
-                        if(!isValidPassword){
-                            return res.status(400).json({
-                                success:false,
-                                message: "Invalid password"
-                                });
-                                }
+  const existingUser = await User.findOne({Email});
+if(!existingUser){
+     return res.status(400).json({
+    success:false,
+     message: "User does not exist"
+     });
+                       
+    }
+  // hashing krne ke liye password ko extract kr rhe hai
+  const isValidPassword = await bcrypt.compare(Password,existingUser.password);
+ if(!isValidPassword){
+     return res.status(400).json({
+    success:false,
+      message: "Invalid password"
+     });
+  }
+   const payload = 
+       {
+         email :	User.email
+        }
+
      // token generate krne ke liye
+
      let token = jwt.sign(payload, process.env.jwt_secret, {expiresIn:'3h'})
      res.status(200).json({
         success:true,
@@ -91,3 +98,63 @@ const login=async(req,res)=>{
                 });
                 }
                 }
+ const isStudent = (req, res, next) => {
+     try {
+        const role = req.user.role;
+                  
+        if (!role) {
+            return res.status(500).json({
+             success: false,
+             message: "failed to find role .....",
+            });
+      }
+                  
+        if(role !== "Student") {
+             return res.status(500).json({
+             success: false,
+             message: "You are not student....",
+            });
+        }
+                  
+                      next()
+                  
+ } catch (err) {
+   return res.status(500).json({
+    success: false,
+    message: "failed to authorise student .....",
+     });
+    }
+ };
+                  
+const isAdmin = (req,res,next)=>{
+   try{
+       const role = req.user.role
+                  
+         if (!role) {
+            return res.status(500).json({
+             success: false,
+             message: "failed to find role .....",
+             });
+        }
+                        
+ if(role !== "Admin") {
+    return res.status(500).json({
+    success: false,
+    message: "You are not Admin....",
+     });
+    }
+                        
+ next()
+                  
+                  
+ }catch(err){
+    console.log(err)
+    return res.status(500).json({
+     success: false,
+     message: "failed to authorise Admin .....",
+      });
+                          
+    }
+  }
+                  
+module.exports = {login, isAdmin, isStudent}
