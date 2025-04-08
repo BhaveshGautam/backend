@@ -1,6 +1,7 @@
 import express from "express";
-import { createCourse, getAllCoursesWithUsers,getSingleCourse, getCourseAttendance} 
-from "../controllers/courseController.js";
+import {  getAllCoursesWithUsers,getSingleCourse} 
+from "../controller/course";
+import { createCourse, getCourseAttendance } from "../controller/admin";
 
 const router = express.Router();
 

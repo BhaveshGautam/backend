@@ -18,10 +18,7 @@ const courseSchema = new mongoose.Schema({
     required: true,
     unique: true,  
   },
-  coursename:{
-    type:String,
-    required:true
-  }
+ 
 }, {
   timestamps: true,  
 });

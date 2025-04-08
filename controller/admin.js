@@ -1,12 +1,11 @@
-
-// /:courseID/attendance
+const Course = require("../models/Course");
 const getCourseAttendance = async (req,res)=>{
     try {
         if(!req.admin){
             return res.status(401).json({message:"Unauthorized"});
         }
         const id = req.params.courseId;
-        const course = await course.findById(id);
+        const course = await Course.findById(id);
         if (!course) {
             return res.status(404).json({ message: "Course not found" });
         }
@@ -19,13 +18,13 @@ const getCourseAttendance = async (req,res)=>{
 
 const createCourse = async (req, res) => {
     try {
-      const { title } = req.body;
+      const { name,totalMarks, coursecode} = req.body;
   
-      if (!title) {
+      if (!title ||!totalMarks||!coursecode) {
         return res.status(400).json({ message: "Course title is required." });
       }
   
-      const newCourse = new Course({ title });
+      const newCourse = new Course({ name,totalMarks, coursecode});
       await newCourse.save();
       res.status(201).json({ message: "Course created successfully", course: newCourse });
     } catch (error) {
@@ -33,3 +32,4 @@ const createCourse = async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   };
+  module.exports={createCourse,getCourseAttendance};

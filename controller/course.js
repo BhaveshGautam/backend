@@ -12,9 +12,9 @@ export const getAllCoursesWithUsers = async (req, res) => {
     }
   };
 
-  const getSingleCourse = async (req, res) => {
+export const getSingleCourse = async (req, res) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params.CourseId;
   
       const course = await Course.findById(id).populate("Users", "email");
   
