@@ -12,7 +12,7 @@ const getCourseAttendance = async (req,res)=>{
         const attendance = await attendance.find({ course: id });
         res.json(attendance);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching attendance" });
+        res.status(500).json({ message: "Error fetching in attendance" });
     }
 }
 

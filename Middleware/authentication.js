@@ -2,10 +2,9 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
 
-
-
 const auth = async (req, res, next) => {
   try {
+    // is tareeke se token ko nikalte haii [0]= bearer token hota hai 
     const token =  req.headers.authorization.split(' ')[1] || req.cookies.token || req.body.token || req.query.token;
       
     console.log(token)
@@ -16,8 +15,10 @@ const auth = async (req, res, next) => {
         message: "token did not found",
       });
     }
-
+    // we are verifying the token here 
     const payload = jwt.verify(token, process.env.jwt_secret);
+
+// 
 
     if (!payload) {
       return res.status(401).json({
@@ -37,4 +38,5 @@ const auth = async (req, res, next) => {
     });
   }
 };
+module.exports={auth};
 
