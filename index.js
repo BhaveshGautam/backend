@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const authrouter = require('./routes/auth.route');
-const userRouter = require('./routes/user.route');
-const courseRouter = require('./routes/course.route');
+const express = import('express');
+const mongoose = import('mongoose');
+const dotenv = import('dotenv');
+const cors =import ('cors');
+const authrouter = import('./routes/auth.route');
+const userRouter = import('./routes/user.route');
+const courseRouter = import('./routes/course.route');
 dotenv.config();
 
 const app = express();

@@ -1,6 +1,6 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const Admin = require("../models/admin");
+import("dotenv").config();
+const jwt = import("jsonwebtoken");
+const Admin = import("../models/admin");
 
 const auth = async (req, res, next) => {
   try {

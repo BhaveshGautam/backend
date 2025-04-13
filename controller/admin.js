@@ -1,9 +1,6 @@
-const Course = require("../models/Course");
+const Course = import("../models/Course");
 const getCourseAttendance = async (req,res)=>{
     try {
-        if(!req.admin){
-            return res.status(401).json({message:"Unauthorized"});
-        }
         const id = req.params.courseId;
         const course = await Course.findById(id);
         if (!course) {

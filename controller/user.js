@@ -1,9 +1,9 @@
 const User = ('..\models\User.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = import('bcrypt');
+const jwt = import('jsonwebtoken');
 
 // singup function 
-const signup = async (req, res) => {
+ export const signup = async (req, res) => {
     try {
         const { Name, Email, Password, Section, Branch, year, RollNo } = req.body;
         if (!Name || !Email || !Password || !Section || !Branch || !year || !RollNo || role) {
@@ -51,7 +51,7 @@ const signup = async (req, res) => {
     }
 }
 // login function 
-const login = async (req, res) => {
+ export const login = async (req, res) => {
     try {
         const { Email, Password, role } = req.body;
         if (!Email || !Password || role) {
@@ -99,7 +99,7 @@ const login = async (req, res) => {
         });
     }
 }
-const isStudent = (req, res, next) => {
+    export const isStudent = (req, res, next) => {
     try {
         const role = req.user.role;
 
@@ -127,7 +127,7 @@ const isStudent = (req, res, next) => {
     }
 };
 
-const isAdmin = (req, res, next) => {
+ export const isAdmin = (req, res, next) => {
     try {
         const role = req.user.role
 
@@ -160,4 +160,3 @@ const isAdmin = (req, res, next) => {
 // find course jismei enroll kia hai
 //us course ke  student array mei us student ko push krna hai
 // course id and student id -2 enroll student 
-module.exports = { login, isAdmin, isStudent, signup };

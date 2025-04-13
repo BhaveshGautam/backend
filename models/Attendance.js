@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const User = require('./models/User'); 
-const Course = require('./models/Course');
+const mongoose = import('mongoose');
+const User = import('./models/User'); 
+const Course = import ('./models/Course');
 
 const attendanceSchema = new mongoose.Schema({
   student: {
@@ -27,4 +27,4 @@ const attendanceSchema = new mongoose.Schema({
 });
 const Attendance = mongoose.model('Attendance', attendanceSchema);
 
-module.exports = Attendance;
+export default Attendance;

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const User = require('./models/User'); 
+ const mongoose = import('mongoose');
+const User = import('./models/User'); 
 const courseSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -24,4 +24,4 @@ const courseSchema = new mongoose.Schema({
 });
 const Course = mongoose.model('Course', courseSchema);
 
-module.exports = Course;
+export default Course;
