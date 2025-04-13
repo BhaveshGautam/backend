@@ -1,4 +1,4 @@
-const Course = import("../models/Course");
+const Course = require("../models/Course");
 const getCourseAttendance = async (req,res)=>{
     try {
         const id = req.params.courseId;
@@ -13,7 +13,7 @@ const getCourseAttendance = async (req,res)=>{
     }
 }
 
-const createCourse = async (req, res) => {
+ const createCourse = async (req, res) => {
     try {
       const { name,totalMarks, coursecode} = req.body;
   

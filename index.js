@@ -1,12 +1,14 @@
-const express = import('express');
-const mongoose = import('mongoose');
-const dotenv = import('dotenv');
-const cors =import ('cors');
-const authrouter = import('./routes/auth.route');
-const userRouter = import('./routes/user.route');
-const courseRouter = import('./routes/course.route');
-dotenv.config();
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
+const authrouter = require('./routes/auth.route');
+const userRouter = require('./routes/user.route');
+const courseRouter = require('./routes/course.route');
+
+dotenv.config();
 const app = express();
 
 app.use(cors({
@@ -20,20 +22,16 @@ mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('✅ MongoDB connected'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
-
+    .then(() => console.log('✅ MongoDB connected'))
+    .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 app.use('/api/auth', authrouter);
 app.use('/api/users', userRouter);
 app.use('/api/courses', courseRouter);
 
-
-
 app.get('/', (req, res) => {
     res.send('🎓 Student Management System API Running...');
 });
-
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

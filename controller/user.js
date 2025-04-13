@@ -1,8 +1,8 @@
-const User = ('..\models\User.js');
-const bcrypt = import('bcrypt');
-const jwt = import('jsonwebtoken');
+const User = require('..\models\User.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// singup function 
+// singup function
 export const signup = async (req, res) => {
     try {
         const { Name, Email, Password, Section, Branch, year, RollNo } = req.body;
@@ -49,7 +49,7 @@ export const signup = async (req, res) => {
             message: 'Internal server error'
         });
     }
-}
+};
 // login function 
 export const login = async (req, res) => {
     try {
@@ -98,7 +98,8 @@ export const login = async (req, res) => {
             message: 'Internal server error'
         });
     }
-}
+};
+
 export const isStudent = (req, res, next) => {
     try {
         const role = req.user.role;

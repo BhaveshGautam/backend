@@ -1,24 +1,24 @@
-import("dotenv").config();
-const jwt = import("jsonwebtoken");
-const Admin = import("../models/admin");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const jwt = require("jsonwebtoken");
+const admin = require("./models/admin");
 
 const auth = async (req, res, next) => {
   try {
-    // is tareeke se token ko nikalte haii [0]= bearer token hota hai 
-    const token =  req.headers.authorization.split(' ')[1] || req.cookies.token || req.body.token || req.query.token;
-      
-    console.log(token)
+    const token =
+      (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token || req.body.token || req.query.token;
+
+    console.log("Token:", token);
 
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "token did not found",
+        message: "Token not found",
       });
     }
-    // we are verifying the token here 
-    const payload = jwt.verify(token, process.env.jwt_secret);
 
-// 
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!payload) {
       return res.status(401).json({
@@ -27,16 +27,16 @@ const auth = async (req, res, next) => {
       });
     }
 
-      req.user = payload;
-      next();
+    req.user = payload; // attach user info to request
+    next();
 
   } catch (err) {
-    console.log(err)
+    console.error("Auth Error:", err);
     return res.status(500).json({
       success: false,
-      message: "failed to authenticate .....",
+      message: "Failed to authenticate...",
     });
   }
 };
-module.exports={auth};
 
+module.exports = { auth };
