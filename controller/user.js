@@ -3,7 +3,7 @@ const bcrypt = import('bcrypt');
 const jwt = import('jsonwebtoken');
 
 // singup function 
- export const signup = async (req, res) => {
+export const signup = async (req, res) => {
     try {
         const { Name, Email, Password, Section, Branch, year, RollNo } = req.body;
         if (!Name || !Email || !Password || !Section || !Branch || !year || !RollNo || role) {
@@ -51,7 +51,7 @@ const jwt = import('jsonwebtoken');
     }
 }
 // login function 
- export const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { Email, Password, role } = req.body;
         if (!Email || !Password || role) {
@@ -99,7 +99,7 @@ const jwt = import('jsonwebtoken');
         });
     }
 }
-    export const isStudent = (req, res, next) => {
+export const isStudent = (req, res, next) => {
     try {
         const role = req.user.role;
 
@@ -127,7 +127,7 @@ const jwt = import('jsonwebtoken');
     }
 };
 
- export const isAdmin = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
     try {
         const role = req.user.role
 
@@ -156,7 +156,22 @@ const jwt = import('jsonwebtoken');
         });
 
     }
-}
-// find course jismei enroll kia hai
-//us course ke  student array mei us student ko push krna hai
-// course id and student id -2 enroll student 
+};
+
+
+export function enrollStudent(courseId, studentId) {
+    const course = course.find(course => course.id === courseId);
+
+    if (!course) {
+        console.log("Course not found");
+        return;
+    }
+
+    if (course.students.includes(studentId)) {
+        console.log("Student already enrolled");
+        return;
+    }
+
+    course.students.push(studentId);
+    console.log(`Student ${studentId} enrolled in course ${courseId}`);
+};

@@ -29,4 +29,4 @@ const createCourse = async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   };
-  module.exports={createCourse,getCourseAttendance};
+  export default{createCourse,getCourseAttendance};
